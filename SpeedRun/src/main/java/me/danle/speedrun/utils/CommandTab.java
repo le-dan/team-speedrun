@@ -21,38 +21,27 @@ public class CommandTab implements TabCompleter {
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 
         List<String> arguements = new ArrayList<String>();
+
         List<String> colors = Arrays.asList("AQUA", "BLACK", "BLUE", "BOLD", "DARK_AQUA", "DARK_BLUE", "DARK_GRAY",
                 "DARK_GREEN", "DARK_PURPLE", "DARK_RED", "GOLD", "GRAY", "GREEN", "ITALIC", "LIGHT_PURPLE", "MAGIC",
                 "RED", "WHITE", "YELLOW");
 
         if (args.length <= 1) {
-            arguements.addAll(Arrays.asList("world", "team", "teleport"));
+            arguements.addAll(Arrays.asList("team", "teleport", "world"));
         } else {
             switch (args[0].toLowerCase()) {
-                case "world":
-                    arguements.addAll(Arrays.asList("delete", "reset", "leave", "create"));
-                    break;
-                case "team":
-                    if (args.length > 2) {
-                        switch (args[1].toLowerCase()) {
-                            case "create":
-                                if (args.length > 3) {
-                                    arguements.addAll(colors);
-                                    // switch (args[2].toLowerCase()) {
-                                    //     case "team_name":
-                                    //         arguements.addAll(colors);
-                                    //         break;
-                                    // }
-                                } else {
-                                    arguements.addAll(Arrays.asList("team_name"));
-                                }
-                                break;
-
-                        }
-                    } else {
-                        arguements.addAll(Arrays.asList("assign", "create"));
+            case "world":
+                arguements.addAll(Arrays.asList("delete", "reset", "leave", "create"));
+                break;
+            case "team": // /speedrun team add|assign
+                if (args[1].equalsIgnoreCase("create")) {
+                    if (args.length == 4) {
+                        arguements.addAll(colors);
                     }
-                    break;
+                } else {
+                    arguements.addAll(Arrays.asList("delete", "create", "scramble"));
+                }
+                break;
             }
         }
 
