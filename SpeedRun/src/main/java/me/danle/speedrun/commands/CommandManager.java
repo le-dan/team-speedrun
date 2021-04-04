@@ -9,6 +9,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 import me.danle.speedrun.commands.subcommands.teamCommand;
+import me.danle.speedrun.commands.subcommands.teamWorld;
 import net.md_5.bungee.api.ChatColor;
 
 public class CommandManager implements CommandExecutor {
@@ -17,6 +18,8 @@ public class CommandManager implements CommandExecutor {
 
     public CommandManager() {
         subcommands.add(new teamCommand());
+        subcommands.add(new teamWorld());
+
     }
 
     @Override
@@ -34,13 +37,13 @@ public class CommandManager implements CommandExecutor {
             } else if (args.length == 0) {
                 p.playSound(p.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 3, 3);
                 p.sendMessage(ChatColor.MAGIC + "" + ChatColor.BOLD + "\n===========================================");
-                p.sendMessage(ChatColor.GOLD + "\n------------------------------------------");
+
                 for (int i = 0; i < subcommands.size(); i++) {
-                    p.sendMessage(ChatColor.GOLD + subcommands.get(i).getSyntax() + " :\n" + "\n"
+                    p.sendMessage(ChatColor.GOLD + "\n------------------------------------------");
+                    p.sendMessage(ChatColor.GOLD + subcommands.get(i).getSyntax() + " :\n"
                             + subcommands.get(i).getDescription() + "\n------------------------------------------");
-                    p.sendMessage(" ");
                 }
-                p.sendMessage(ChatColor.MAGIC + "" + ChatColor.BOLD + "===========================================\n");
+                p.sendMessage(ChatColor.MAGIC + "" + ChatColor.BOLD + "\n===========================================\n");
             }
 
         }

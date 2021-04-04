@@ -5,7 +5,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import me.danle.speedrun.commands.CommandManager;
 import me.danle.speedrun.commands.Speedrun;
-import me.danle.speedrun.commands.subcommands.teleport;
 import me.danle.speedrun.commands.subcommands.world;
 import me.danle.speedrun.utils.CommandTab;
 import net.md_5.bungee.api.ChatColor;

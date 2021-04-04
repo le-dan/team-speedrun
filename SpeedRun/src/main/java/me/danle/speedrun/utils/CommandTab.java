@@ -9,14 +9,6 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.command.TabCompleter;
 
 public class CommandTab implements TabCompleter {
-
-    // /speedrun world {delete/reset/leave/create}
-    // /speedrun team create {name} {color}
-    // /speedrun teleport
-
-    // TODO
-    // Change "team_name" so tab completer works when inputting any string still
-    // completes tab for team color.
     @Override
     public List<String> onTabComplete(CommandSender sender, Command cmd, String label, String[] args) {
 
@@ -27,11 +19,11 @@ public class CommandTab implements TabCompleter {
                 "RED", "WHITE", "YELLOW");
 
         if (args.length <= 1) {
-            arguements.addAll(Arrays.asList("team", "teleport", "world"));
+            arguements.addAll(Arrays.asList("team", "world"));
         } else {
             switch (args[0].toLowerCase()) {
             case "world":
-                arguements.addAll(Arrays.asList("delete", "reset", "leave", "create"));
+                arguements.addAll(Arrays.asList("build", "delete", "leave"));
                 break;
             case "team": // /speedrun team add|assign
                 if (args[1].equalsIgnoreCase("create")) {
@@ -39,7 +31,7 @@ public class CommandTab implements TabCompleter {
                         arguements.addAll(colors);
                     }
                 } else {
-                    arguements.addAll(Arrays.asList("delete", "create", "scramble"));
+                    arguements.addAll(Arrays.asList("create", "delete", "scramble", "teleport", "test"));
                 }
                 break;
             }

@@ -25,7 +25,6 @@ public class world implements CommandExecutor {
         if (cmd.getName().equalsIgnoreCase("speedrun")) {
             if (args.length > 0 && args[0].toLowerCase() == "world") {
                 switch (args[1].toLowerCase()) {
-
                 case "reset": // Resets world and creates new world
                     World reset = Bukkit.getServer().getWorld("speedrun_world");
                     for (Player player : reset.getPlayers()) {

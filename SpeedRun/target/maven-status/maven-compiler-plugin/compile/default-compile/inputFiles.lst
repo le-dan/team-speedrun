@@ -1,8 +1,8 @@
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\utils\CommandTab.java
-c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\subcommands\teleport.java
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\App.java
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\CommandManager.java
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\subcommands\world.java
+c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\subcommands\teamWorld.java
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\Speedrun.java
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\subcommands\teamCommand.java
 c:\minecraft_server\SpeedRun\src\main\java\me\danle\speedrun\commands\SubCommand.java

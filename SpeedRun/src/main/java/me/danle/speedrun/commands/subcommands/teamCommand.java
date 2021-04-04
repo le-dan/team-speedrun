@@ -7,21 +7,24 @@ import java.util.Random;
 
 import org.bukkit.Bukkit;
 import org.bukkit.Sound;
+import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.Team;
 
+import me.danle.speedrun.commands.subcommands.teamWorld;
 import me.danle.speedrun.commands.SubCommand;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 
 public class teamCommand extends SubCommand { // speedrun team
 
     private ArrayList<Team> teamList = new ArrayList<Team>();
-
-    Random random = new Random();
-
-    String[] colors = { "AQUA", "BLACK", "BLUE", "DARK_AQUA", "DARK_BLUE", "DARK_GRAY", "DARK_GREEN", "DARK_PURPLE",
-            "DARK_RED", "GOLD", "GRAY", "GREEN", "LIGHT_PURPLE", "MAGIC", "RED", "WHITE", "YELLOW" };
+    private Location original;
+    private World world;
+    private Random random = new Random();
+    private String[] colors = { "AQUA", "BLACK", "BLUE", "DARK_AQUA", "DARK_BLUE", "DARK_GRAY", "DARK_GREEN",
+            "DARK_PURPLE", "DARK_RED", "GOLD", "GRAY", "GREEN", "LIGHT_PURPLE", "MAGIC", "RED", "WHITE", "YELLOW" };
 
     @Override
     public String getName() {
@@ -67,6 +70,22 @@ public class teamCommand extends SubCommand { // speedrun team
                     correctUsage(player, "Usage: /speedrun team create {name} {color}");
                 }
                 break;
+
+            case "delete":
+                Scoreboard currentTeams = Bukkit.getScoreboardManager().getMainScoreboard();
+                if (currentTeams.getTeams().size() > 0) {
+                    for (Team team : currentTeams.getTeams()) {
+                        currentTeams.getTeam(team.getName()).unregister();
+                    }
+                    player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Teams have been deleted!");
+                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 3, 3);
+                } else {
+                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "There are no teams to delete!");
+                    player.playSound(player.getLocation(), Sound.ENTITY_COW_MILK, 5, 3);
+                }
+
+                break;
+
             case "scramble":
                 List<Player> playerList = new ArrayList<Player>(Bukkit.getOnlinePlayers());
                 Collections.shuffle(playerList);
@@ -87,27 +106,43 @@ public class teamCommand extends SubCommand { // speedrun team
                         p.setDisplayName(teamColor2 + prefix + ChatColor.RESET + p.getName());
                     }
                 }
-                player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Players have been scrambled to their respective teams!");
+                player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD
+                        + "Players have been scrambled to their respective teams!");
                 player.playSound(player.getLocation(), Sound.ENTITY_COW_MILK, 5, 3);
                 break;
-            case "delete":
-                Scoreboard currentTeams = Bukkit.getScoreboardManager().getMainScoreboard();
-                if (currentTeams.getTeams().size() > 0) {
-                    for (Team team : currentTeams.getTeams()) {
-                        currentTeams.getTeam(team.getName()).unregister();
-                    }
-                    player.sendMessage(ChatColor.YELLOW + "" + ChatColor.BOLD + "Teams have been deleted!");
-                    player.playSound(player.getLocation(), Sound.ENTITY_PLAYER_LEVELUP, 3, 3);
-                } else {
-                    player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD + "There are no teams to delete!");
-                    player.playSound(player.getLocation(), Sound.ENTITY_COW_MILK, 5, 3);
-                }
 
+            case "teleport":
+                world = Bukkit.getServer().getWorld("speedrun_world");
+                Location spawn = world.getSpawnLocation();
+                // int radius = 50;
+                // for (int i = 0; i < teamList.size(); i++) {
+                //     Location loc = world
+                //             .getHighestBlockAt((int) (spawn.getX() + radius * Math.cos(Math.PI / teamList.size() * i)),
+                //                     (int) (spawn.getZ() + radius * Math.sin(Math.PI / teamList.size() * i)))
+                //             .getLocation();
+                //     for (String entry : teamList.get(i).getEntries()) { // get all player names from team
+                //         Player p = Bukkit.getPlayerExact(entry);
+                //         if (p != null) {
+                //             if (teamList == null) {
+                //                 player.sendMessage(ChatColor.RED + "" + ChatColor.BOLD
+                //                         + "Teams have not been created yet. \nDo /speedrun team create in order to create teams.");
+                //             }
+                //         }
+                        player.teleport(spawn);
+                        player.setBedSpawnLocation(spawn);
+                //     }
+                // }
+                player.sendMessage(ChatColor.YELLOW + "You have been teleported to the speedrun world!");
+                player.playSound(player.getLocation(), Sound.ENTITY_COW_MILK, 5, 3);
+                break;
+
+            case "test":
+                player.sendMessage(world.getName());
                 break;
             }
 
         } else if (args.length == 1) {
-            correctUsage(player, "Usage: /speedrun team [delete/create/scramble]");
+            correctUsage(player, "Usage: /speedrun team [delete/create/scramble/teleport]");
         }
     }
 
@@ -116,10 +151,6 @@ public class teamCommand extends SubCommand { // speedrun team
         Team team = board.registerNewTeam(teamName);
         teamList.add(team);
         team.setColor(ChatColor.valueOf(teamColor));
-    }
-
-    public String usage(String usage) {
-        return ChatColor.YELLOW + "" + ChatColor.ITALIC + usage;
     }
 
     public void correctUsage(Player player, String usage) {
